@@ -1,7 +1,16 @@
+import os
 import numpy as np
-import cv2
+from sklearn.cluster import MiniBatchKMeans
 
-def kmeans(data, k):
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    ret, label, center = cv2.kmeans(data, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-    return ret, label, center
+DIR_DATA = "data"
+NAME_CENTERS = "centers_Multiple.npy"
+VALUE_CLUSTER = 10000
+
+def kmeans(data):
+    data = np.load(data)
+    kmeans = MiniBatchKMeans(init='k-means++', n_clusters=VALUE_CLUSTER, batch_size=9000, n_init=10, max_no_improvement=10, verbose=0)
+    kmeans.fit(data)
+    centers = kmeans.cluster_centers_
+    np.save(os.path.join(DIR_DATA,NAME_CENTERS), centers)
+    return centers
+
