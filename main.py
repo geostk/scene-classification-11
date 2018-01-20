@@ -169,20 +169,26 @@ def predictor():
     svm_mean_score = svm_mean_score/VALUE_SAMPLES
     file_score.write("------------\n"+"Mean \t:"+str(svm_mean_score))
     file_score.close()
-
-
-
 # PREVIOUS FUNCTIONS - END
 
 def main():
-    # previous function, do not need to re run.
-    # desc: build a define list (img directory \t img label) and 5 samples for testing
-    #define_label()
-    #split_train_test(samples = VALUE_SAMPLES)
-    #extract_all_sift_features()
-    #cluster_all_description()
-    #build_bow()
+    # build a define list (img directory \t img label)
+    define_label()
+
+    # split 5 samples for testing
+    split_train_test(samples = VALUE_SAMPLES)
+
+    # extract all features, output general feature + each feature
+    extract_all_sift_features()
+
+    # cluster general feature in to 10K visual words (10K centers)
+    cluster_all_description()
+
+    # build bag of visual words
+    build_bow()
+
+    # predictor depend on each word and 10K visual words.
     predictor()
-    print()
+
 
 main()
